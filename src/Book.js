@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 
+import './App.css'
 
 class Book extends Component {
     static propTypes = {
         imageUrl: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        authors: PropTypes.string.isRequired
+        authors: PropTypes.array.isRequired
     }
 
     render() {
@@ -30,7 +31,9 @@ class Book extends Component {
                     </div>
                 </div>
                 <div className="book-title">{this.props.title}</div>
-                <div className="book-authors">{this.props.authors}</div>
+                <div className="book-authors">{this.props.authors.map((a) => (
+                    <p>{a}</p>
+                ))}</div>
             </div>
         );
     }
