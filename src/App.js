@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component, } from 'react'
 import {Route} from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
+
 import './App.css'
 
 import Main from "./Main";
