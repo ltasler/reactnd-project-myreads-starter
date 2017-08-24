@@ -6,7 +6,7 @@ import './App.css'
 import Main from "./Main";
 import Search from "./Search"
 
-class BooksApp extends React.Component {
+class BooksApp extends Component {
 
   render() {
     return (
