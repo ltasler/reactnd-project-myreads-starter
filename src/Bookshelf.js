@@ -6,7 +6,13 @@ import './App.css'
 class Bookshelf extends Component {
     static PropTypes = {
         name: PropTypes.string.isRequired,
-        books: PropTypes.array.isRequired
+        books: PropTypes.array.isRequired,
+        onBookshelfChanged: PropTypes.func
+    }
+
+    onBookshelfChanged = (shelf, id) => {
+        if(this.props.onBookshelfChanged)
+            this.props.onBookshelfChanged(shelf, id);
     }
 
     render() {
@@ -20,9 +26,11 @@ class Bookshelf extends Component {
                         {this.props.books.map((b) => (
                             <li key={b.id}>
                                 <Book
-                                title={b.title}
-                                imageUrl={b.imageLinks.thumbnail}
-                                authors={b.authors}
+                                    id={b.id}
+                                    title={b.title}
+                                    imageUrl={b.imageLinks.thumbnail}
+                                    authors={b.authors}
+                                    changeBookshelf={(shelf, id) => this.onBookshelfChanged(shelf, id)}
                                 />
                             </li>
                         ))}

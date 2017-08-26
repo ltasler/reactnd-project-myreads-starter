@@ -4,9 +4,16 @@ import './App.css'
 
 class Book extends Component {
     static propTypes = {
+        id: PropTypes.string.isRequired,
         imageUrl: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        authors: PropTypes.array.isRequired
+        authors: PropTypes.array.isRequired,
+        changeBookshelf: PropTypes.func
+    }
+
+    handleChange = (event) => {
+        if(this.props.changeBookshelf)
+            this.props.changeBookshelf(event.target.value, this.props.id);
     }
 
     render() {
@@ -21,7 +28,7 @@ class Book extends Component {
 
                     </div>
                     <div className="book-shelf-changer">
-                        <select>
+                        <select onChange={(event) => this.handleChange(event)}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
