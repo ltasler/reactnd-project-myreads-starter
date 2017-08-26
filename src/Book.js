@@ -4,12 +4,7 @@ import './App.css'
 
 class Book extends Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
-        imageUrl: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-        authors: PropTypes.array.isRequired,
-        changeBookshelf: PropTypes.func,
-        shelf: PropTypes.string.isRequired
+        data: PropTypes.object.isRequired
     }
 
     handleChange = (event) => {
@@ -18,6 +13,8 @@ class Book extends Component {
     }
 
     render() {
+        let book = this.props.data;
+
         return (
             <div className="book">
                 <div className="book-top">
@@ -25,12 +22,12 @@ class Book extends Component {
                          style={{
                              width: 128,
                              height: 193,
-                             backgroundImage: `url(${this.props.imageUrl})` }}>
+                             backgroundImage: `url(${book.imageLinks.thumbnail})` }}>
 
                     </div>
                     <div className="book-shelf-changer">
                         <select onChange={(event) => this.handleChange(event)}
-                            value={this.props.shelf}>
+                            value={book.shelf}>
 
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
@@ -40,10 +37,8 @@ class Book extends Component {
                         </select>
                     </div>
                 </div>
-                <div className="book-title">{this.props.title}</div>
-                <div className="book-authors">{this.props.authors.map((a) => (
-                    <p key={a}>{a}</p>
-                ))}</div>
+                <div className="book-title">{book.title}</div>
+                <div className="book-authors">{book.authors}</div>
             </div>
         );
     }

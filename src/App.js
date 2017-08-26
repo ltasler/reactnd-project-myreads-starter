@@ -5,18 +5,22 @@ import './App.css'
 
 import Main from "./Main";
 import Search from "./Search"
-import {getAll, update} from "./BooksAPI";
+import {getAll, update, get, search} from "./BooksAPI";
 
 class BooksApp extends Component {
 
     state = {
-        books: []
+        books: [],
+        queriedBooks: [],
+        query: ""
     }
 
     componentDidMount() {
         getAll().then((b) => {
             this.setState({books: b});
         });
+        this.updateSearchResults("");
+        console.log(this.state.queriedBooks);
     }
 
     updateBook = (shelf, bookId) => {
@@ -36,13 +40,52 @@ class BooksApp extends Component {
             update(book[0], shelf);
             this.updateBook(shelf, bookId);
         }
+        else {
+            get(bookId).then((b) => {
+               this.setState((state) => {
+                  books: state.books.concat([b])
+               });
+            });
+        }
+    }
+
+    updateSearchResults = (query) => {
+        this.clearSearch();
+        this.setState({query: query})
+        if(query) {
+            search(query, 20).then((r) => {
+                if(r.error) {
+                    this.setState({queriedBooks: []});
+                } else {
+                    r = r.map((b) => {
+                        var onShelf = this.state.books.find((x) => x.id === b.id);
+                        b.shelf = "none";
+                        if (onShelf)
+                            b.shelf = onShelf.shelf;
+                        return b;
+                    });
+                    if(query === this.state.query) //do not update if query has cchangeeed.
+                        this.setState({queriedBooks: r});
+                }
+            });
+        } else {
+            this.setState({queriedBooks: []});
+        }
+    }
+
+    clearSearch = () => {
+        this.setState({queriedBooks: []});
     }
 
   render() {
     return (
       <div className="app">
           <Route path="/search" render={() => (
-              <Search/>
+              <Search
+                  queriedBooks={this.state.queriedBooks}
+                  onQueryChanged={(query) => this.updateSearchResults(query)}
+                  clearSearch={() => this.clearSearch()}
+              />
           )}/>
           <Route exact path="/" render={() => (
           <Main
