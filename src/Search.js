@@ -7,11 +7,17 @@ import Book from "./Book";
 class Search extends Component {
     PropTypes = {
         queriedBooks: PropTypes.array.isRequired,
-        onQueryChanged: PropTypes.func
+        onQueryChanged: PropTypes.func,
+        onBookshelfChanged: PropTypes.func
     }
 
     componentWillUnmount() {
         this.props.clearSearch();
+    }
+
+    onBookshelfChanged = (shelf, id) => {
+        if(this.props.onBookshelfChanged)
+            this.props.onBookshelfChanged(shelf, id)
     }
 
     render() {

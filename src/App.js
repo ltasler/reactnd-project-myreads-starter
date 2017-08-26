@@ -24,14 +24,22 @@ class BooksApp extends Component {
     }
 
     updateBook = (shelf, bookId) => {
-        this.setState((state) => {
+        this.setState((state) => ({
             books: state.books.map((b, idx) => {
                if(b.id === bookId) {
                    b.shelf = shelf;
                }
                return b;
-            });
-        });
+            })
+        }));
+    }
+
+    addBook = (book, shelf) => {
+        book.shelf = shelf;
+        this.setState((state) => ({
+            books: state.books.concat([book])
+        }));
+        update(book, shelf)
     }
 
     onShelfChange = (shelf, bookId) => {
@@ -42,9 +50,7 @@ class BooksApp extends Component {
         }
         else {
             get(bookId).then((b) => {
-               this.setState((state) => {
-                  books: state.books.concat([b])
-               });
+               this.addBook(b, shelf);
             });
         }
     }
@@ -85,6 +91,7 @@ class BooksApp extends Component {
                   queriedBooks={this.state.queriedBooks}
                   onQueryChanged={(query) => this.updateSearchResults(query)}
                   clearSearch={() => this.clearSearch()}
+                  onBookshelfChanged={(shelf, id) => this.onShelfChange(shelf, id)}
               />
           )}/>
           <Route exact path="/" render={() => (

@@ -9,7 +9,7 @@ class Book extends Component {
 
     handleChange = (event) => {
         if(this.props.changeBookshelf)
-            this.props.changeBookshelf(event.target.value, this.props.id);
+            this.props.changeBookshelf(event.target.value, this.props.data.id);
     }
 
     render() {
