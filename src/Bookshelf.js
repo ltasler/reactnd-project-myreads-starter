@@ -29,6 +29,7 @@ class Bookshelf extends Component {
                                     imageUrl={b.imageLinks.thumbnail}
                                     authors={b.authors}
                                     changeBookshelf={(shelf, id) => this.onBookshelfChanged(shelf, id)}
+                                    shelf={b.shelf}
                                 />
                             </li>
                         ))}

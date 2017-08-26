@@ -8,7 +8,8 @@ class Book extends Component {
         imageUrl: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         authors: PropTypes.array.isRequired,
-        changeBookshelf: PropTypes.func
+        changeBookshelf: PropTypes.func,
+        shelf: PropTypes.string.isRequired
     }
 
     handleChange = (event) => {
@@ -28,7 +29,9 @@ class Book extends Component {
 
                     </div>
                     <div className="book-shelf-changer">
-                        <select onChange={(event) => this.handleChange(event)}>
+                        <select onChange={(event) => this.handleChange(event)}
+                            value={this.props.shelf}>
+
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
