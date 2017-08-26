@@ -19,13 +19,23 @@ class BooksApp extends Component {
         });
     }
 
-    onShelfChange = (shelf, bookId) => {
-        var book = this.state.books.filter((b) => b.id === bookId);
-        update(book[0], shelf).then((b) => {
-            getAll().then((b) => {
-               this.setState({books: b});
+    updateBook = (shelf, bookId) => {
+        this.setState((state) => {
+            books: state.books.map((b, idx) => {
+               if(b.id === bookId) {
+                   b.shelf = shelf;
+               }
+               return b;
             });
         });
+    }
+
+    onShelfChange = (shelf, bookId) => {
+        var book = this.state.books.filter((b) => b.id === bookId);
+        if(book.length > 0) {
+            update(book[0], shelf);
+            this.updateBook(shelf, bookId);
+        }
     }
 
   render() {
